@@ -1,16 +1,21 @@
 import React, { useContext } from "react";
-import { authContext } from "../AuthProvider/AuthProvider";
+import { FaProductHunt } from "react-icons/fa";
 
 const Footer = () => {
-  const { isDark } = useContext(authContext);
   return (
     <footer
-      className={`footer footer-center bg-base-200 text-base-content p-10 ${
-        isDark ? "bg-gray-900 text-gray-50" : ""
-      }`}
+      className={`footer footer-center bg-base-200 text-base-content p-10 `}
     >
       <nav className="grid grid-flow-col gap-4">
-        <a className="link link-hover">Contact Us at bookish@gmail.com</a>
+        <a className="link link-hover flex items-center gap-2">
+          <FaProductHunt size={20} /> Product Hunt
+        </a>
+      </nav>
+      <nav className="grid grid-flow-col gap-4">
+        <a className="link link-hover">Contact Us: productHunt@gmail.com</a>
+      </nav>
+      <nav className="grid grid-flow-col gap-4">
+        <a className="link link-hover">Address: Edmonton, Alberta, Canada</a>
       </nav>
       <nav>
         <div className="grid grid-flow-col gap-4">
@@ -51,7 +56,8 @@ const Footer = () => {
       </nav>
       <aside>
         <p>
-          Copyright © {new Date().getFullYear()} - All right reserved by Bookish
+          Copyright © {new Date().getFullYear()} - All right reserved by Product
+          Hunt
         </p>
       </aside>
     </footer>
