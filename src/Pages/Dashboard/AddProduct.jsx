@@ -1,13 +1,17 @@
 import React, { useContext, useState } from "react";
 import { authContext } from "../../AuthProvider/AuthProvider";
 import { TagsInput } from "react-tag-input-component";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const { user } = useContext(authContext);
   const { displayName, photoURL, email } = user || {};
+  const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
 
-  const handleAddProduct =  (event) => {
+  const handleAddProduct = async (event) => {
     event.preventDefault();
     const form = event.target;
     const productName = form.pName.value;
@@ -28,27 +32,28 @@ const AddProduct = () => {
       productExternalLink,
     };
 
-    console.log(product);
+    // console.log(product);
 
-    // try {
-    //   const data = await axios
-    //     .post(`${import.meta.env.VITE_API_URL}/addBook`, book, {
-    //       withCredentials: true,
-    //     })
-    //     .then((data) => {
-    //       if (data.data.insertedId) {
-    //         Swal.fire({
-    //           title: "Success!",
-    //           text: "New Book Added Successfully!",
-    //           icon: "success",
-    //           confirmButtonText: "Cool",
-    //         });
-    //         navigate("/allBooks");
-    //       }
-    //     });
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/addProduct`,
+        product
+      );
+
+      if (data.insertedId) {
+        Swal.fire({
+          title: "Success!",
+          text: "New Product Added Successfully!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        navigate("/dashboard/myProducts");
+      }
+
+      //   console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
