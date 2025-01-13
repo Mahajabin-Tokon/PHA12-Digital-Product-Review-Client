@@ -9,6 +9,7 @@ import Dashboard from "../Layouts/Dashboard";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import AddProduct from "../Pages/Dashboard/AddProduct";
+import MyProducts from "../Pages/Dashboard/MyProducts";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "addProduct",
         element: <AddProduct></AddProduct>,
+      },
+      {
+        path: "myProducts",
+        element: <MyProducts></MyProducts>,
       },
     ],
   },

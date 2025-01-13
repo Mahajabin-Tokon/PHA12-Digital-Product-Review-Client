@@ -9,13 +9,13 @@ const Dashboard = () => {
             <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/adminHome">My Profile</NavLink>
+            <NavLink to="/dashboard/myProfile">My Profile</NavLink>
           </li>
           <li>
             <NavLink to="/dashboard/addProduct">Add Product</NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/adminHome">My Product</NavLink>
+            <NavLink to="/dashboard/myProducts">My Products</NavLink>
           </li>
         </ul>
       </div>
