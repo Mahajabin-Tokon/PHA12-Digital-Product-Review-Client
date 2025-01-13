@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
+import { FaProductHunt } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, handleLogout } = useContext(authContext);
@@ -13,20 +14,12 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/allBooks">All Books</NavLink>
-      </li>
-      <li>
-        <NavLink to="/addBook">Add Book</NavLink>
-      </li>
-      <li>
-        <NavLink to="/borrowedBooks">Borrowed Books</NavLink>
+        <NavLink to="/allBooks">Products</NavLink>
       </li>
     </>
   );
   return (
-    <div
-      className={`navbar  theme-controller`}
-    >
+    <div className={`navbar  theme-controller`}>
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -52,7 +45,9 @@ const Navbar = () => {
             {navlinks}
           </ul>
         </div>
-        <a className="btn btn-ghost text-4xl">Bookish</a>
+        <a className="btn btn-ghost text-4xl">
+          <FaProductHunt size={35} />{" "}
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navlinks}</ul>
@@ -74,8 +69,11 @@ const Navbar = () => {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow"
             >
+              <li className="pointer-events-none">
+                <p>{user?.displayName}</p>
+              </li>
               <li>
-                <a>{user?.displayName}</a>
+                <a>Dashboard</a>
               </li>
               <li>
                 <Link onClick={handleLogout} to="/login" className="btn">

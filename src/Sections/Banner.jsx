@@ -19,12 +19,17 @@ import { Navigation } from "swiper/modules";
 const Banner = () => {
   return (
     <>
-      <Swiper navigation={true} modules={[Navigation]} className="mySwiper rounded-xl">
+      <Swiper
+        navigation={true}
+        modules={[Navigation]}
+        className="mySwiper rounded-xl"
+      >
         <SwiperSlide>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
             <img src={bp1} className="md:w-1/2 h-96" />
             <p className="md:w-1/2 md:text-3xl p-5 md:pr-20">
-              Discover endless adventures. Borrow, read, and return with ease.
+              Discover, share, and upvote innovative tech products changing the
+              world.
             </p>
           </div>
         </SwiperSlide>
@@ -32,7 +37,7 @@ const Banner = () => {
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
             <img src={bp2} className="md:w-1/2 h-96" />
             <p className="md:w-1/2 md:text-3xl p-5 md:pr-20">
-              From classics to new releases, borrow your favorite books today.
+              Explore top-rated web apps, AI tools, and software effortlessly.
             </p>
           </div>
         </SwiperSlide>
@@ -40,8 +45,8 @@ const Banner = () => {
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
             <img src={bp3} className="md:w-1/2 h-96" />
             <p className="md:w-1/2 md:text-3xl p-5 md:pr-20">
-              Borrow smarter, read better. Explore our library, pick your
-              favorites!
+              Your hub for discovering and reviewing groundbreaking tech
+              innovations today.
             </p>
           </div>
         </SwiperSlide>
