@@ -12,7 +12,7 @@ const Dashboard = () => {
             <NavLink to="/dashboard/adminHome">My Profile</NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/adminHome">Add Product</NavLink>
+            <NavLink to="/dashboard/addProduct">Add Product</NavLink>
           </li>
           <li>
             <NavLink to="/dashboard/adminHome">My Product</NavLink>
