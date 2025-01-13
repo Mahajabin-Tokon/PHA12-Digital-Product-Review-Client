@@ -49,20 +49,32 @@ const Login = () => {
   const googleLogin = () => {
     handleGoogleLogin()
       .then((result) => {
-        if (!location.state) {
-          navigate("/");
-          Swal.fire({
-            title: "Successfully logged In!",
-            icon: "success",
-          });
-        } else {
-          navigate(location.state.from);
-          Swal.fire({
-            title: "Successfully logged In!",
-            icon: "success",
-          });
-        }
+        const userInfo = {
+          name: result.user?.displayName,
+          email: result.user?.email,
+          image: result.user?.photoURL,
+        };
+        axios
+          .post(`${import.meta.env.VITE_API_URL}/users`, userInfo)
+          .then((res) => {
+            if (!location.state) {
+              navigate("/");
+              Swal.fire({
+                title: "Successfully logged In!",
+                icon: "success",
+              });
+            } else {
+              navigate(location.state.from);
+              Swal.fire({
+                title: "Successfully logged In!",
+                icon: "success",
+              });
+            }
+            console.log(res)
+          }
+        );
       })
+
       .catch((error) => {
         setError("Invalid credentials");
       });

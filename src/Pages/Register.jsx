@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Register = () => {
   const { handleRegister, handleGoogleLogin, manageProfile, handleLogout } =
@@ -38,13 +39,25 @@ const Register = () => {
 
     handleRegister(email, password)
       .then((result) => {
-        manageProfile(name, image);
-        navigate("/");
-        Swal.fire({
-          title: "Successfully Registered!",
-          icon: "success",
+        manageProfile(name, image).then(() => {
+          const user = {
+            name: name,
+            email: email,
+            image: image,
+          };
+          axios
+            .post(`${import.meta.env.VITE_API_URL}/users`, user)
+            .then((res) => {
+              if (res.data.insertedId) {
+                navigate("/");
+                Swal.fire({
+                  title: "Successfully Registered!",
+                  icon: "success",
+                });
+                // console.log("User added to db");
+              }
+            });
         });
-        console.log(result);
       })
       .catch((error) => {
         console.log(error);
@@ -54,11 +67,20 @@ const Register = () => {
   const googleLogin = () => {
     handleGoogleLogin()
       .then((result) => {
-        navigate("/");
-        Swal.fire({
-          title: "Successfully Registered!",
-          icon: "success",
-        });
+        const userInfo = {
+          name: result.user?.displayName,
+          email: result.user?.email,
+          image: result.user?.photoURL,
+        };
+        axios
+          .post(`${import.meta.env.VITE_API_URL}/users`, userInfo)
+          .then((res) => {
+            navigate("/");
+            Swal.fire({
+              title: "Successfully Registered!",
+              icon: "success",
+            });
+          });
       })
       .catch((error) => {});
   };
