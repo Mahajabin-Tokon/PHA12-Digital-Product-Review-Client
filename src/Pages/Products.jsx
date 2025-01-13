@@ -2,16 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import { BiSolidUpvote } from "react-icons/bi";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Products = () => {
+  const axiosSecure = useAxiosSecure();
   const { refetch, data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+      const res = await axiosSecure.get(
+        `${import.meta.env.VITE_API_URL}/products`
+      );
       return res.data;
     },
   });
-  console.log(products)
+  console.log(products);
   return (
     <div className="max-w-6xl mx-auto my-2 px-2">
       <form className="flex justify-center items-center gap-2">
