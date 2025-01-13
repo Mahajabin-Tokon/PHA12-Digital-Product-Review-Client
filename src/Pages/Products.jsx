@@ -1,7 +1,17 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
 import { BiSolidUpvote } from "react-icons/bi";
 
 const Products = () => {
+  const { refetch, data: products = [] } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+      return res.data;
+    },
+  });
+  console.log(products)
   return (
     <div className="max-w-6xl mx-auto my-2 px-2">
       <form className="flex justify-center items-center gap-2">
@@ -16,11 +26,7 @@ const Products = () => {
           </div>
         </div>
         <div className="">
-          <input
-            type="submit"
-            value="Search"
-            className="btn w-full"
-          />
+          <input type="submit" value="Search" className="btn w-full" />
         </div>
       </form>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-5 ">
