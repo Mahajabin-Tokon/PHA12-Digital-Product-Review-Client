@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const ProductReview = () => {
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
   const { refetch, data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -28,13 +28,26 @@ const ProductReview = () => {
     }
   };
 
-  const handleAccept = async (id, event) => {
+  const handleAccept = async (id) => {
     try {
       // console.log(id);
       const { data } = await axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/products/accept/${id}`
       );
-      
+
+      refetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleReject = async (id) => {
+    try {
+      // console.log(id);
+      const { data } = await axiosSecure.patch(
+        `${import.meta.env.VITE_API_URL}/products/reject/${id}`
+      );
+
       refetch();
     } catch (err) {
       console.log(err);
@@ -69,15 +82,32 @@ const ProductReview = () => {
                   onClick={() => handleFeatured(product?._id)}
                   className={`btn ${product?.isFeatured ? "bg-green-400" : ""}`}
                 >
-                  {product?.isFeatured ? "Featured": "Feature"}
+                  {product?.isFeatured ? "Featured" : "Feature"}
                 </button>
               </td>
               <td>{product?.isAccepted}</td>
               <td className="space-x-1">
-                <button onClick={() => handleAccept(product?._id, event)}
-                disabled={product?.isAccepted === "accepted"}
-                className="btn">Accept</button>
-                <button className="btn">Reject</button>
+                <button
+                  onClick={() => handleAccept(product?._id)}
+                  disabled={
+                    product?.isAccepted === "accepted" ||
+                    product?.isAccepted === "rejected"
+                  }
+                  className="btn"
+                >
+                  Accept
+                </button>
+
+                <button
+                  onClick={() => handleReject(product?._id)}
+                  disabled={
+                    product?.isAccepted === "accepted" ||
+                    product?.isAccepted === "rejected"
+                  }
+                  className="btn"
+                >
+                  Reject
+                </button>
               </td>
             </tr>
           ))}
