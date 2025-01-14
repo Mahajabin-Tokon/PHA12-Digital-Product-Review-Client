@@ -13,6 +13,7 @@ import MyProducts from "../Pages/Dashboard/MyProducts";
 import ProductDetails from "../Pages/ProductDetails";
 import ProductReview from "../Pages/Dashboard/ProductReview";
 import Reported from "../Pages/Dashboard/Reported";
+import ModRoute from "../PrivateRoute/ModRoute";
 
 const router = createBrowserRouter([
   {
@@ -68,11 +69,23 @@ const router = createBrowserRouter([
       },
       {
         path: "modProductReview",
-        element: <ProductReview></ProductReview>,
+        element: (
+          <PrivateRoute>
+            <ModRoute>
+              <ProductReview></ProductReview>
+            </ModRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "modReported",
-        element: <Reported></Reported>,
+        element: (
+          <PrivateRoute>
+            <ModRoute>
+              <Reported></Reported>
+            </ModRoute>
+          </PrivateRoute>
+        ),
       },
     ],
   },
