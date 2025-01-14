@@ -21,11 +21,11 @@ const ProductDetails = () => {
     },
   });
 
-  const { data: reviews = [] } = useQuery({
-    queryKey: ["review"],
+  const { refetch: reviewRetch, data: reviews = [] } = useQuery({
+    queryKey: ["review", product?._id],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/reviews?id=${product?._id}`
+        `${import.meta.env.VITE_API_URL}/reviews/${product?._id}`
       );
       console.log("testing", res);
       return res.data;
@@ -62,7 +62,7 @@ const ProductDetails = () => {
           icon: "success",
           confirmButtonText: "Cool",
         });
-        refetch();
+        reviewRetch();
       }
 
       //   console.log(data);

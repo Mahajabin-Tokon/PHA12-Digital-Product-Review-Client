@@ -17,7 +17,7 @@ const ProductReview = () => {
       });
     },
   });
-  console.log(products);
+  // console.log(products);
 
   const handleFeatured = async (id) => {
     try {
