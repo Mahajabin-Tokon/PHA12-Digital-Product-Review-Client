@@ -11,6 +11,8 @@ import MyProfile from "../Pages/Dashboard/MyProfile";
 import AddProduct from "../Pages/Dashboard/AddProduct";
 import MyProducts from "../Pages/Dashboard/MyProducts";
 import ProductDetails from "../Pages/ProductDetails";
+import ProductReview from "../Pages/Dashboard/ProductReview";
+import Reported from "../Pages/Dashboard/Reported";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
       {
         path: "myProducts",
         element: <MyProducts></MyProducts>,
+      },
+      {
+        path: "modProductReview",
+        element: <ProductReview></ProductReview>,
+      },
+      {
+        path: "modReported",
+        element: <Reported></Reported>,
       },
     ],
   },

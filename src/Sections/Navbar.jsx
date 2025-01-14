@@ -3,9 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md";
 import { FaProductHunt } from "react-icons/fa";
+import useRole from "../Hooks/useRole";
 
 const Navbar = () => {
   const { user, handleLogout } = useContext(authContext);
+  const [role] = useRole();
   // const userFromFirebase = auth.currentUser
 
   const navlinks = (
@@ -73,7 +75,12 @@ const Navbar = () => {
                 <p>{user?.displayName}</p>
               </li>
               <li>
-                <Link to="/dashboard/myProfile">Dasboard</Link>
+                {role === "customer" && (
+                  <Link to="/dashboard/myProfile">Dasboard</Link>
+                )}
+                {role === "moderator" && (
+                  <Link to="/dashboard/modProductReview">Dasboard</Link>
+                )}
               </li>
               <li>
                 <Link onClick={handleLogout} to="/login" className="btn">
