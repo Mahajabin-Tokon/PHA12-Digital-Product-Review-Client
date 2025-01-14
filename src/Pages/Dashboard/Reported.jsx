@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Reported = () => {
   const axiosSecure = useAxiosSecure();
@@ -13,6 +14,28 @@ const Reported = () => {
       return res.data.filter((eachdata) => eachdata.isReported);
     },
   });
+
+  const handleDelete = async (id) => {
+    try {
+      // console.log(id);
+      const { data } = await axiosSecure.delete(
+        `${import.meta.env.VITE_API_URL}/products/${id}`
+      );
+      if (data.deletedCount) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "You have deleted this product",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+      refetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="table table-xs">
@@ -30,12 +53,17 @@ const Reported = () => {
             <tr key={product?._id}>
               <th>{product?.productName}</th>
               <td>
-                <Link to={`/productDetails/${product._id}`} className="btn">
+                <Link to={`/productDetails/${product?._id}`} className="btn">
                   Details
                 </Link>
               </td>
               <td>
-                <button className="btn">Delete</button>
+                <button
+                  onClick={() => handleDelete(product?._id)}
+                  className="btn"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
