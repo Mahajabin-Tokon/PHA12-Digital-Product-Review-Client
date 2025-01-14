@@ -8,8 +8,8 @@ import axios from "axios";
 const Featured = () => {
   const { user } = useContext(authContext);
   const navigate = useNavigate();
-  const { refetch, data: products = [] } = useQuery({
-    queryKey: ["products"],
+  const { refetch, data: featuredProducts = [] } = useQuery({
+    queryKey: ["featuredProducts"],
     queryFn: async () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
       return res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -22,9 +22,10 @@ const Featured = () => {
     }
     console.log(id);
   };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pt-5 pb-20">
-      {products.map((product) => (
+      {featuredProducts.map((product) => (
         <div key={product?._id} className="card bg-base-100 shadow-xl">
           <figure>
             <img src={product?.productImage} alt="Product Image" />
@@ -37,7 +38,7 @@ const Featured = () => {
               ))}
             </div>
             <div className="card-actions justify-end">
-              <button onClick={() => handleUpvote("123")} className="btn">
+              <button onClick={() => handleUpvote("123")} disabled={product?.email === user?.email} className="btn">
                 <BiSolidUpvote /> {product?.productUpvotes}
               </button>
             </div>
