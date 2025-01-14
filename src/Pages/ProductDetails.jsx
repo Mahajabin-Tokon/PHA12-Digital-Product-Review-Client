@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
 import { BiSolidUpvote } from "react-icons/bi";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
   const { user } = useContext(authContext);
@@ -15,11 +16,21 @@ const ProductDetails = () => {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/productDetails/${params.id}`
       );
-      console.log(res);
+    //   console.log(res);
       return res.data;
     },
   });
-  console.log(user);
+
+  const { data: reviews = [] } = useQuery({
+    queryKey: ["review"],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/reviews?id=${product?._id}`
+      );
+      console.log("testing",res);
+      return res.data;
+    },
+  });
 
   const handleAddReview = async (event) => {
     event.preventDefault();
@@ -36,28 +47,28 @@ const ProductDetails = () => {
       reviewDescription,
       reviewRating,
     };
-    console.log(review);
+    // console.log(review);
 
-    // try {
-    //   const { data } = await axios.post(
-    //     `${import.meta.env.VITE_API_URL}/addProduct`,
-    //     product
-    //   );
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/reviews`,
+        review
+      );
 
-    //   if (data.insertedId) {
-    //     Swal.fire({
-    //       title: "Success!",
-    //       text: "New Product Added Successfully!",
-    //       icon: "success",
-    //       confirmButtonText: "Cool",
-    //     });
-    //     navigate("/dashboard/myProducts");
-    //   }
+      if (data.insertedId) {
+        Swal.fire({
+          title: "Success!",
+          text: "New Review Added Successfully!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        refetch();
+      }
 
-    //   //   console.log(data);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    //   console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -89,39 +100,21 @@ const ProductDetails = () => {
       {/* Review */}
       <div className="text-center text-4xl py-10">Reviews</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5">
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">Review</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
+        {reviews.map((review) => (
+          <div key={review._id} className="card bg-base-100 shadow-xl">
+            <div className="card-body">
+              <h2 className="card-title">{review?.displayName}</h2>
+              <p>{review?.reviewDescription}</p>
+              <p>{review?.reviewRating}</p>
+            </div>
           </div>
-        </div>
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">Review</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-          </div>
-        </div>
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">Reviewer Name</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-          </div>
-        </div>
+        ))}
       </div>
       {/* Add review form */}
       <form onSubmit={handleAddReview} className="bg-base-200 py-10 rounded-xl">
         <div className="text-center text-4xl py-10">Add a Review</div>
         {/* Field 1 */}
-        <div className="px-10 py-2">
-          <div className="w-full">
-            <p>Reviewer Name</p>
-            <input
-              name="reviewerName"
-              type="text"
-              className="input input-bordered w-full"
-            />
-          </div>
-        </div>
+
         {/* Field 2 */}
         <div className="px-10 py-2">
           <div className="w-full">
