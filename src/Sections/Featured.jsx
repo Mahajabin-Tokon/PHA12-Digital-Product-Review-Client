@@ -4,6 +4,7 @@ import { authContext } from "../AuthProvider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Featured = () => {
   const { user } = useContext(authContext);
@@ -16,11 +17,30 @@ const Featured = () => {
     },
   });
 
-  const handleUpvote = (id) => {
+  const handleUpvote = async (id) => {
     if (!user) {
       navigate("login");
     }
     console.log(id);
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/products/${id}`
+      );
+      // console.log(data)
+      if (data.modifiedCount) {
+        // Swal.fire({
+        //   title: "Success!",
+        //   text: "New Review Added Successfully!",
+        //   icon: "success",
+        //   confirmButtonText: "Cool",
+        // });
+        refetch();
+      }
+
+      //   console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -41,7 +61,7 @@ const Featured = () => {
             </div>
             <div className="card-actions justify-end">
               <button
-                onClick={() => handleUpvote("123")}
+                onClick={() => handleUpvote(product?._id)}
                 disabled={product?.email === user?.email}
                 className="btn"
               >

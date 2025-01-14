@@ -16,11 +16,30 @@ const Trending = () => {
     },
   });
 
-  const handleUpvote = (id) => {
+  const handleUpvote = async (id) => {
     if (!user) {
       navigate("login");
     }
     console.log(id);
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/products/${id}`
+      );
+      // console.log(data)
+      if (data.modifiedCount) {
+        // Swal.fire({
+        //   title: "Success!",
+        //   text: "New Review Added Successfully!",
+        //   icon: "success",
+        //   confirmButtonText: "Cool",
+        // });
+        refetch();
+      }
+
+      //   console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -45,7 +64,7 @@ const Trending = () => {
               </div>
               <div className="card-actions justify-end">
                 <button
-                  onClick={() => handleUpvote("123")}
+                  onClick={() => handleUpvote(product?._id)}
                   disabled={product?.email === user?.email}
                   className="btn"
                 >

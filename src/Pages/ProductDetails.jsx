@@ -71,6 +71,32 @@ const ProductDetails = () => {
     }
   };
 
+  const handleUpvote = async (id) => {
+    if (!user) {
+      navigate("login");
+    }
+    console.log(id);
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/products/${id}`
+      );
+      // console.log(data)
+      if (data.modifiedCount) {
+        // Swal.fire({
+        //   title: "Success!",
+        //   text: "New Review Added Successfully!",
+        //   icon: "success",
+        //   confirmButtonText: "Cool",
+        // });
+        refetch();
+      }
+
+      //   console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="card bg-base-100 shadow-xl pt-5 pb-20">
       <figure>
@@ -89,7 +115,7 @@ const ProductDetails = () => {
         </div>
         <div className="card-actions justify-end">
           <button
-            onClick={() => handleUpvote("123")}
+            onClick={() => handleUpvote(product?._id)}
             disabled={product?.email === email}
             className="btn"
           >
