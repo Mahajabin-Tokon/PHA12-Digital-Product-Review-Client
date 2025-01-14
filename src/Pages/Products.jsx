@@ -1,22 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiSolidUpvote } from "react-icons/bi";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Products = () => {
-  const axiosSecure = useAxiosSecure();
+  const [allProducts, setAllProducts] = useState([]);
   const { refetch, data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/products`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
       return res.data;
     },
   });
+
+  useEffect(() => {
+    setAllProducts(products);
+  }, [products]);
+
   // console.log(products);
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    const search = event.target.search.value;
+    const filteredProdtucts = products.filter((item) =>
+      item.productTags.includes(search)
+    );
+    setAllProducts(filteredProdtucts);
+  };
+
   return (
     <div className="max-w-6xl mx-auto my-2 px-2">
-      <form className="flex justify-center items-center gap-2">
+      <form
+        onSubmit={handleSearch}
+        className="flex justify-center items-center gap-2"
+      >
         <div className="py-2">
           <div className="">
             <input
@@ -32,7 +49,7 @@ const Products = () => {
         </div>
       </form>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-5 ">
-        {products.map((product) => (
+        {allProducts.map((product) => (
           <div key={product?._id} className="card bg-base-100 shadow-xl">
             <figure>
               <img src={product?.productImage} alt="Product Image" />
