@@ -30,6 +30,7 @@ const AddProduct = () => {
       productDescription,
       productTags,
       productExternalLink,
+      productUpvotes: 0
     };
 
     // console.log(product);
