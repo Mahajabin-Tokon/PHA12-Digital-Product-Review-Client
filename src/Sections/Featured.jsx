@@ -15,6 +15,7 @@ const Featured = () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
       // return res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
       return res.data
+        .filter((eachData) => eachData?.isAccepted === "accepted")
         .filter((eachData) => eachData?.isFeatured)
         .sort((a, b) => new Date(b.date) - new Date(a.date));
     },
