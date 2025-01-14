@@ -3,8 +3,10 @@ import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const ProductReview = () => {
+  const axiosSecure = useAxiosSecure()
   const { refetch, data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -19,16 +21,22 @@ const ProductReview = () => {
       const { data } = await axios.patch(
         `${import.meta.env.VITE_API_URL}/products/feature/${id}`
       );
-      console.log(data);
+      // console.log(data);
       refetch();
     } catch (err) {
-      // Swal.fire({
-      //   position: "top-end",
-      //   icon: "info",
-      //   title: "You have already upvoted this product",
-      //   showConfirmButton: false,
-      //   timer: 1500,
-      // });
+      console.log(err);
+    }
+  };
+
+  const handleAccept = async (id, event) => {
+    try {
+      // console.log(id);
+      const { data } = await axiosSecure.patch(
+        `${import.meta.env.VITE_API_URL}/products/accept/${id}`
+      );
+      
+      refetch();
+    } catch (err) {
       console.log(err);
     }
   };
@@ -66,7 +74,9 @@ const ProductReview = () => {
               </td>
               <td>{product?.isAccepted}</td>
               <td className="space-x-1">
-                <button className="btn">Accept</button>
+                <button onClick={() => handleAccept(product?._id, event)}
+                disabled={product?.isAccepted === "accepted"}
+                className="btn">Accept</button>
                 <button className="btn">Reject</button>
               </td>
             </tr>
