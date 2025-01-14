@@ -30,7 +30,9 @@ const AddProduct = () => {
       productDescription,
       productTags,
       productExternalLink,
-      productUpvotes: []
+      productUpvotes: [],
+      isFeatured: false,
+      isAccepted: "pending",
     };
 
     // console.log(product);

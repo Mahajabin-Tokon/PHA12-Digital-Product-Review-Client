@@ -51,9 +51,12 @@ const Register = () => {
             .then((res) => {
               if (res.data.insertedId) {
                 navigate("/");
+                window.location.reload();
                 Swal.fire({
                   title: "Successfully Registered!",
-                  icon: "success",
+                  
+                  showConfirmButton: false,
+                  timer: 1500,
                 });
                 // console.log("User added to db");
               }
@@ -78,9 +81,11 @@ const Register = () => {
           .post(`${import.meta.env.VITE_API_URL}/users`, userInfo)
           .then((res) => {
             navigate("/");
+            window.location.reload();
             Swal.fire({
               title: "Successfully Registered!",
-              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
             });
           });
       })

@@ -22,13 +22,17 @@ const Login = () => {
           navigate("/");
           Swal.fire({
             title: "Successfully logged In!",
-            icon: "success",
+
+            showConfirmButton: false,
+            timer: 1500,
           });
         } else {
           navigate(location.state.from);
           Swal.fire({
             title: "Successfully logged In!",
-            icon: "success",
+
+            showConfirmButton: false,
+            timer: 1500,
           });
         }
       })
@@ -53,27 +57,32 @@ const Login = () => {
           name: result.user?.displayName,
           email: result.user?.email,
           image: result.user?.photoURL,
-          role: "customer"
+          role: "customer",
         };
         axios
           .post(`${import.meta.env.VITE_API_URL}/users`, userInfo)
           .then((res) => {
             if (!location.state) {
               navigate("/");
+              window.location.reload();
               Swal.fire({
                 title: "Successfully logged In!",
-                icon: "success",
+
+                showConfirmButton: false,
+                timer: 1500,
               });
             } else {
               navigate(location.state.from);
+              window.location.reload();
               Swal.fire({
                 title: "Successfully logged In!",
-                icon: "success",
+
+                showConfirmButton: false,
+                timer: 1500,
               });
             }
-            console.log(res)
-          }
-        );
+            console.log(res);
+          });
       })
 
       .catch((error) => {
