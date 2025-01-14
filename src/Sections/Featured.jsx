@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { BiSolidUpvote } from "react-icons/bi";
 import { authContext } from "../AuthProvider/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -31,14 +31,20 @@ const Featured = () => {
             <img src={product?.productImage} alt="Product Image" />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">{product?.productName}</h2>
+            <Link to={`/productDetails/${product._id}`} className="card-title">
+              {product?.productName}
+            </Link>
             <div className="flex flex-wrap gap-2">
               {product?.productTags.map((tag) => (
                 <div className="bg-base-200 p-1">{tag}</div>
               ))}
             </div>
             <div className="card-actions justify-end">
-              <button onClick={() => handleUpvote("123")} disabled={product?.email === user?.email} className="btn">
+              <button
+                onClick={() => handleUpvote("123")}
+                disabled={product?.email === user?.email}
+                className="btn"
+              >
                 <BiSolidUpvote /> {product?.productUpvotes}
               </button>
             </div>

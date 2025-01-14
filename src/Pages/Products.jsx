@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BiSolidUpvote } from "react-icons/bi";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -55,7 +56,9 @@ const Products = () => {
               <img src={product?.productImage} alt="Product Image" />
             </figure>
             <div className="card-body">
-              <h2 className="card-title">{product?.productName}</h2>
+              <Link to={`/productDetails/${product._id}`} className="card-title">
+                {product?.productName}
+              </Link>
               <div className="flex flex-wrap gap-2">
                 {product?.productTags.map((tag) => (
                   <div className="bg-base-200 p-1">{tag}</div>
