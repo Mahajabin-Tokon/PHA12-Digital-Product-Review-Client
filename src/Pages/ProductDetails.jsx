@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
 import { BiSolidUpvote } from "react-icons/bi";
 import Swal from "sweetalert2";
@@ -130,6 +130,9 @@ const ProductDetails = () => {
             <div className="bg-base-200 p-1">{tag}</div>
           ))}
         </div>
+        <Link target="_blank" to={product?.productExternalLink}>
+          {product?.productExternalLink}
+        </Link>
         <div className="card-actions justify-end">
           <button
             onClick={() => handleUpvote(product)}
