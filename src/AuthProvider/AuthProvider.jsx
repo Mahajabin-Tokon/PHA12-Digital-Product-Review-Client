@@ -53,6 +53,7 @@ const AuthProvider = ({ children }) => {
             email: currentUser?.email,
           }
         );
+
         if (data.token) {
           localStorage.setItem("access-token", data.token);
           setLoading(false);

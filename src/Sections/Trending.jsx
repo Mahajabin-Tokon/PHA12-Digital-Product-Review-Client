@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../AuthProvider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Trending = () => {
   const { user } = useContext(authContext);
@@ -12,32 +13,30 @@ const Trending = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
-      return res.data.sort((a, b) => b?.productUpvotes - a?.productUpvotes);
+      return res.data.sort(
+        (a, b) => b?.productUpvotes.length - a?.productUpvotes.length
+      );
     },
   });
 
-  const handleUpvote = async (id) => {
+  const handleUpvote = async (product) => {
     if (!user) {
       navigate("login");
     }
-    console.log(id);
     try {
       const { data } = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/products/${id}`
+        `${import.meta.env.VITE_API_URL}/products?email=${user?.email}`,
+        product
       );
-      // console.log(data)
-      if (data.modifiedCount) {
-        // Swal.fire({
-        //   title: "Success!",
-        //   text: "New Review Added Successfully!",
-        //   icon: "success",
-        //   confirmButtonText: "Cool",
-        // });
-        refetch();
-      }
-
-      //   console.log(data);
+      refetch();
     } catch (err) {
+      Swal.fire({
+        position: "top-end",
+        icon: "info",
+        title: "You have already upvoted this product",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       console.log(err);
     }
   };
@@ -64,11 +63,11 @@ const Trending = () => {
               </div>
               <div className="card-actions justify-end">
                 <button
-                  onClick={() => handleUpvote(product?._id)}
+                  onClick={() => handleUpvote(product)}
                   disabled={product?.email === user?.email}
                   className="btn"
                 >
-                  <BiSolidUpvote /> {product?.productUpvotes}
+                  <BiSolidUpvote /> {product?.productUpvotes?.length}
                 </button>
               </div>
             </div>

@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSolidUpvote } from "react-icons/bi";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import { authContext } from "../AuthProvider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Products = () => {
+  const { user } = useContext(authContext);
   const [allProducts, setAllProducts] = useState([]);
   const { refetch, data: products = [] } = useQuery({
     queryKey: ["products"],
@@ -27,6 +30,28 @@ const Products = () => {
       item.productTags.includes(search)
     );
     setAllProducts(filteredProdtucts);
+  };
+
+  const handleUpvote = async (product) => {
+    if (!user) {
+      navigate("login");
+    }
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/products?email=${user?.email}`,
+        product
+      );
+      refetch();
+    } catch (err) {
+      Swal.fire({
+        position: "top-end",
+        icon: "info",
+        title: "You have already upvoted this product",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      console.log(err);
+    }
   };
 
   return (
@@ -56,7 +81,10 @@ const Products = () => {
               <img src={product?.productImage} alt="Product Image" />
             </figure>
             <div className="card-body">
-              <Link to={`/productDetails/${product._id}`} className="card-title">
+              <Link
+                to={`/productDetails/${product._id}`}
+                className="card-title"
+              >
                 {product?.productName}
               </Link>
               <div className="flex flex-wrap gap-2">
@@ -65,8 +93,12 @@ const Products = () => {
                 ))}
               </div>
               <div className="card-actions justify-end">
-                <button onClick={() => handleUpvote("123")} className="btn">
-                  <BiSolidUpvote /> {product?.productUpvotes}
+                <button
+                  onClick={() => handleUpvote(product)}
+                  disabled={product?.email === user?.email}
+                  className="btn"
+                >
+                  <BiSolidUpvote /> {product?.productUpvotes?.length}
                 </button>
               </div>
             </div>

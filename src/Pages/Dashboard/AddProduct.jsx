@@ -30,7 +30,7 @@ const AddProduct = () => {
       productDescription,
       productTags,
       productExternalLink,
-      productUpvotes: 0
+      productUpvotes: []
     };
 
     // console.log(product);
@@ -48,7 +48,7 @@ const AddProduct = () => {
           icon: "success",
           confirmButtonText: "Cool",
         });
-        navigate("/dashboard/myProducts");
+        // navigate("/dashboard/myProducts");
       }
 
       //   console.log(data);
