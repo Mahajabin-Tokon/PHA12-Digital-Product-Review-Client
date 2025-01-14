@@ -33,6 +33,7 @@ const AddProduct = () => {
       productUpvotes: [],
       isFeatured: false,
       isAccepted: "pending",
+      isReported: false,
     };
 
     // console.log(product);

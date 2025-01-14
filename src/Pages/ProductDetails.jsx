@@ -93,6 +93,27 @@ const ProductDetails = () => {
     }
   };
 
+  const handleReport = async (product) => {
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/products/report/${product?._id}`
+      );
+      // console.log(data);
+      if (data.modifiedCount) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "You have reported this product",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+      refetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="card bg-base-100 shadow-xl pt-5 pb-20">
       <figure>
@@ -116,6 +137,13 @@ const ProductDetails = () => {
             className="btn"
           >
             <BiSolidUpvote /> {product?.productUpvotes?.length}
+          </button>
+          <button
+            onClick={() => handleReport(product)}
+            // disabled={product?.email === user?.email}
+            className="btn"
+          >
+            Report
           </button>
         </div>
       </div>
