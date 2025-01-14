@@ -57,7 +57,7 @@ const Trending = () => {
                 {product?.productName}
               </Link>
               <div className="flex flex-wrap gap-2">
-                {product?.productTags.map((tag) => (
+                {product?.productTags?.map((tag) => (
                   <div className="bg-base-200 p-1">{tag}</div>
                 ))}
               </div>

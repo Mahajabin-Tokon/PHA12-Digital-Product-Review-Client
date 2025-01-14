@@ -6,6 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { authContext } from "../../AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 const MyProducts = () => {
   const axiosSecure = useAxiosSecure();
@@ -63,13 +64,12 @@ const MyProducts = () => {
               <td>{product?.productUpvotes.length}</td>
               <td>{product?.isAccepted}</td>
               <td className="text-center">
-                <FaEdit />
+                <Link to={`/dashboard/updateProduct/${product?._id}`}>
+                  <FaEdit />
+                </Link>
               </td>
               <td>
-                <button
-                  onClick={() => handleDelete(product?._id)}
-                  
-                >
+                <button onClick={() => handleDelete(product?._id)}>
                   <MdDelete />
                 </button>
               </td>
