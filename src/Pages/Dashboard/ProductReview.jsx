@@ -11,9 +11,13 @@ const ProductReview = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
-      return res.data;
+      return res.data.sort((a, b) => {
+        const order = { pending: 1, accepted: 2, rejected: 3 };
+        return (order[a.isAccepted] || 4) - (order[b.isAccepted] || 4);
+      });
     },
   });
+  console.log(products);
 
   const handleFeatured = async (id) => {
     try {
