@@ -44,6 +44,7 @@ const Register = () => {
             name: name,
             email: email,
             image: image,
+            role: "customer",
           };
           axios
             .post(`${import.meta.env.VITE_API_URL}/users`, user)
@@ -71,6 +72,7 @@ const Register = () => {
           name: result.user?.displayName,
           email: result.user?.email,
           image: result.user?.photoURL,
+          role: "customer",
         };
         axios
           .post(`${import.meta.env.VITE_API_URL}/users`, userInfo)

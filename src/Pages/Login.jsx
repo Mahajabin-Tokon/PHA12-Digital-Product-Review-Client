@@ -53,6 +53,7 @@ const Login = () => {
           name: result.user?.displayName,
           email: result.user?.email,
           image: result.user?.photoURL,
+          role: "customer"
         };
         axios
           .post(`${import.meta.env.VITE_API_URL}/users`, userInfo)
