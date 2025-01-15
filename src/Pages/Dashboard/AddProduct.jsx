@@ -4,12 +4,33 @@ import { TagsInput } from "react-tag-input-component";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const AddProduct = () => {
   const { user } = useContext(authContext);
   const { displayName, photoURL, email } = user || {};
   const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
+
+  const { refetch, data: hasAdded } = useQuery({
+    queryKey: ["hasAdded", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+      console.log(res.data.find((eachData) => eachData?.email === user?.email))
+      return res.data.find((eachData) => eachData?.email === user?.email);
+    },
+  });
+
+  const { data: theUser = {} } = useQuery({
+    queryKey: ["theUser"],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/single/${user?.email}`
+      );
+      // console.log(res.data);
+      return res.data;
+    },
+  });
 
   const handleAddProduct = async (event) => {
     event.preventDefault();
@@ -36,27 +57,38 @@ const AddProduct = () => {
       isReported: false,
     };
 
-    // console.log(product);
+    console.log(hasAdded)
+    // console.log(theUser?.isVerified)
+    if (hasAdded && !theUser?.isVerified) {
+      Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: "Please subscribe to add more products",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+    } else {
+      // console.log("working")
+      try {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/addProduct`,
+          product
+        );
 
-    try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/addProduct`,
-        product
-      );
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Success!",
+            text: "New Product Added Successfully!",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+          navigate("/dashboard/myProducts");
+        }
 
-      if (data.insertedId) {
-        Swal.fire({
-          title: "Success!",
-          text: "New Product Added Successfully!",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
-        // navigate("/dashboard/myProducts");
+        //   console.log(data);
+      } catch (err) {
+        console.log(err);
       }
-
-      //   console.log(data);
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -105,6 +137,7 @@ const AddProduct = () => {
         <div className="w-full">
           <p>Product Name</p>
           <input
+            required
             name="pName"
             type="text"
             placeholder="Product Name"
