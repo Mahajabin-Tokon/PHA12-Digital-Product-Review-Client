@@ -15,6 +15,10 @@ import ProductReview from "../Pages/Dashboard/ProductReview";
 import Reported from "../Pages/Dashboard/Reported";
 import ModRoute from "../PrivateRoute/ModRoute";
 import UpdateProduct from "../Pages/Dashboard/UpdateProduct";
+import AdminRoute from "../PrivateRoute/AdminRoute";
+import Statistics from "../Pages/Dashboard/Statistics";
+import ManageUsers from "../Pages/Dashboard/ManageUsers";
+import ManageCoupon from "../Pages/Dashboard/ManageCoupon";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +97,36 @@ const router = createBrowserRouter([
             <ModRoute>
               <Reported></Reported>
             </ModRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "stats",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <Statistics></Statistics>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manageUsers",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageUsers></ManageUsers>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manageCoupons",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageCoupon></ManageCoupon>
+            </AdminRoute>
           </PrivateRoute>
         ),
       },

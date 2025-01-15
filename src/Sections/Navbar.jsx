@@ -81,6 +81,9 @@ const Navbar = () => {
                 {role === "moderator" && (
                   <Link to="/dashboard/modProductReview">Dasboard</Link>
                 )}
+                {role === "admin" && (
+                  <Link to="/dashboard/stats">Dasboard</Link>
+                )}
               </li>
               <li>
                 <Link onClick={handleLogout} to="/login" className="btn">
