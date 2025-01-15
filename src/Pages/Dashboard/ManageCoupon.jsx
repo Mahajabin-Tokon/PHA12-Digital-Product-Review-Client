@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const ManageCoupon = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,7 +11,7 @@ const ManageCoupon = () => {
     queryKey: ["coupons"],
     queryFn: async () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/coupons`);
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });
@@ -30,8 +31,6 @@ const ManageCoupon = () => {
       discount,
     };
 
-    console.log(coupon);
-
     try {
       const { data } = await axiosSecure.post(
         `${import.meta.env.VITE_API_URL}/coupons`,
@@ -45,6 +44,7 @@ const ManageCoupon = () => {
           icon: "success",
           confirmButtonText: "Cool",
         });
+        refetch();
         // navigate("/dashboard/myProducts");
       }
 
@@ -53,6 +53,28 @@ const ManageCoupon = () => {
       console.log(err);
     }
   };
+
+  const deleteCoupon = async (id) => {
+    try {
+      const { data } = await axiosSecure.delete(
+        `${import.meta.env.VITE_API_URL}/coupons/${id}`
+      );
+      if (data.deletedCount) {
+        Swal.fire({
+          title: "Success!",
+          text: "Coupon Deleted Successfully!",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        // navigate("/dashboard/manageCoupons");
+        refetch();
+      }
+      //   console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 py-5">
@@ -64,8 +86,13 @@ const ManageCoupon = () => {
               <p>{coupon?.expiryDate}</p>
               <p>${coupon?.discount}</p>
               <div className="card-actions justify-end">
-                <button className="btn">Edit</button>
-                <button className="btn">Delete</button>
+                <Link
+                  to={`/dashboard/editCoupon/${coupon?._id}`}
+                  className="btn"
+                >
+                  Edit
+                </Link>
+                <button onClick={()=>deleteCoupon(coupon?._id)} className="btn">Delete</button>
               </div>
             </div>
           </div>

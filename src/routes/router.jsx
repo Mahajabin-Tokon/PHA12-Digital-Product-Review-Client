@@ -19,6 +19,7 @@ import AdminRoute from "../PrivateRoute/AdminRoute";
 import Statistics from "../Pages/Dashboard/Statistics";
 import ManageUsers from "../Pages/Dashboard/ManageUsers";
 import ManageCoupon from "../Pages/Dashboard/ManageCoupon";
+import EditCoupon from "../Pages/Dashboard/EditCoupon";
 
 const router = createBrowserRouter([
   {
@@ -126,6 +127,16 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <AdminRoute>
               <ManageCoupon></ManageCoupon>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "editCoupon/:id",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <EditCoupon></EditCoupon>
             </AdminRoute>
           </PrivateRoute>
         ),
