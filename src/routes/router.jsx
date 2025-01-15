@@ -20,6 +20,7 @@ import Statistics from "../Pages/Dashboard/Statistics";
 import ManageUsers from "../Pages/Dashboard/ManageUsers";
 import ManageCoupon from "../Pages/Dashboard/ManageCoupon";
 import EditCoupon from "../Pages/Dashboard/EditCoupon";
+import Payment from "../Pages/Dashboard/Payment";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UpdateProduct></UpdateProduct>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <PrivateRoute>
+            <Payment></Payment>
           </PrivateRoute>
         ),
       },

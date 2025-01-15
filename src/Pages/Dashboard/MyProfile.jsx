@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { authContext } from "../../AuthProvider/AuthProvider";
+import { Link } from "react-router-dom";
 
 const MyProfile = () => {
   const { user } = useContext(authContext);
@@ -13,7 +14,14 @@ const MyProfile = () => {
         <p>{user?.email}</p>
         <p>Status: Verified</p>
         <div className="card-actions justify-end">
-          <button className="btn">$50</button>
+          <Link
+            // to="/dashboard/payment"
+            to="/dashboard/payment"
+            state={{ amount: 50 }}
+            className="btn"
+          >
+            $50
+          </Link>
         </div>
       </div>
     </div>
