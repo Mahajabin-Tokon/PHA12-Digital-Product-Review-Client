@@ -15,7 +15,8 @@ const Trending = () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
       return res.data
         .filter((eachData) => eachData?.isAccepted === "accepted")
-        .sort((a, b) => b?.productUpvotes.length - a?.productUpvotes.length);
+        .sort((a, b) => b?.productUpvotes.length - a?.productUpvotes.length)
+        .slice(0, 6);
     },
   });
 

@@ -60,8 +60,8 @@ const MyProfile = () => {
       <div className="card-body">
         <h2 className="card-title">{user?.displayName}</h2>
         <p>{user?.email}</p>
-        <p>Status: {theUser?.isVerified ? "Subscribed" : "Not Subscribed"}</p>
-        <div className="card-actions justify-end">
+        <p>Status: {theUser?.isVerified ? "Verified" : "Not Verified"}</p>
+        {!theUser?.isVerified && <div className="card-actions justify-end">
           <Link
             // to="/dashboard/payment"
             to="/dashboard/payment"
@@ -70,7 +70,7 @@ const MyProfile = () => {
           >
             ${amount}
           </Link>
-        </div>
+        </div>}
         <form
           className="py-10 flex justify-start items-end gap-2 rounded-xl"
           onSubmit={handleCoupon}
