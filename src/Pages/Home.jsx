@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import Banner from "../Sections/Banner";
 import Featured from "../Sections/Featured";
 import Trending from "../Sections/Trending";
+import Coupon from "../Sections/Coupon";
 
 const Home = () => {
+  
   return (
     <div>
       <div className="max-w-6xl mx-auto px-2">
@@ -19,6 +21,10 @@ const Home = () => {
       <div className="max-w-6xl mx-auto my-2 px-2">
         <div className="text-center text-4xl pb-10 ">Trending Products</div>
         <Trending></Trending>
+      </div>
+      <div className="max-w-6xl mx-auto my-2 px-2 pb-10">
+        <div className="text-center text-4xl pb-10 ">Coupons</div>
+        <Coupon></Coupon>
       </div>
     </div>
   );
