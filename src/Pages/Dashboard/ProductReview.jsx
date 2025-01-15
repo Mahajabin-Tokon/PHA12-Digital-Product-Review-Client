@@ -21,8 +21,8 @@ const ProductReview = () => {
 
   const handleFeatured = async (id) => {
     try {
-      console.log(id);
-      const { data } = await axios.patch(
+      // console.log(id);
+      const { data } = await axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/products/feature/${id}`
       );
       // console.log(data);
