@@ -11,7 +11,7 @@ import "react-responsive-pagination/themes/classic.css";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; 
+  const itemsPerPage = 6;
   const { user } = useContext(authContext);
   const [allProducts, setAllProducts] = useState([]);
   const { refetch, data: products = [] } = useQuery({
@@ -34,11 +34,27 @@ const Products = () => {
   // console.log(products);
   const handleSearch = async (event) => {
     event.preventDefault();
-    const search = event.target.search.value;
-    const filteredProdtucts = products.filter((item) =>
-      item.productTags.includes(search)
-    );
-    setAllProducts(filteredProdtucts);
+    const searchInput = event.target.search.value;
+    if (searchInput) {
+      try {
+        const { data } = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/products/search?searchParams=${searchInput}`
+        );
+        setAllProducts(data);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "info",
+        title: "Your search input is empty",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const handleUpvote = async (product) => {
