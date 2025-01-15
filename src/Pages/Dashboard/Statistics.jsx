@@ -15,7 +15,7 @@ const Statistics = () => {
     },
   });
 
-  const data01 = [
+  const data = [
     { name: "Users", value: stats.users },
     { name: "Reviews", value: stats.reviews },
     { name: "Products", value: stats.products },
@@ -27,14 +27,14 @@ const Statistics = () => {
         <Pie
           dataKey="value"
           isAnimationActive={false}
-          data={data01}
+          data={data}
           cx="50%"
           cy="50%"
           outerRadius={80}
           fill="#8884d8"
           label
         />
-        <Legend></Legend>
+
         <Tooltip />
       </PieChart>
     </div>
