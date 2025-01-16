@@ -125,6 +125,7 @@ const ProductDetails = () => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{product?.productName}</h2>
+        <p>{product?.productDescription}</p>
         <div className="flex flex-wrap gap-2">
           {product?.productTags?.map((tag) => (
             <div className="bg-base-200 p-1">{tag}</div>

@@ -10,7 +10,7 @@ const EditCoupon = () => {
   const params = useParams();
   const navigate = useNavigate();
   const { refetch, data: coupon = {} } = useQuery({
-    queryKey: ["coupon"],
+    queryKey: ["coupon", params.id],
     queryFn: async () => {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/coupons/${params.id}`
