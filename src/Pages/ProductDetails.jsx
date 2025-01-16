@@ -158,7 +158,7 @@ const ProductDetails = () => {
             <div className="card-body">
               <h2 className="card-title">{review?.displayName}</h2>
               <p>{review?.reviewDescription}</p>
-              <p>{review?.reviewRating}/10</p>
+              <p>Rating: {review?.reviewRating}/10</p>
             </div>
           </div>
         ))}
