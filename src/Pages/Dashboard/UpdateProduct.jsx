@@ -10,10 +10,11 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 const UpdateProduct = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(authContext);
+  const [selected, setSelected] = useState([]);
   const { displayName, photoURL, email } = user || {};
   const params = useParams();
   const { refetch, data: product = {} } = useQuery({
-    queryKey: ["product"],
+    queryKey: ["product", params.id],
     queryFn: async () => {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/productDetails/${params.id}`
@@ -22,8 +23,12 @@ const UpdateProduct = () => {
       return res.data;
     },
   });
-
-  const [selected, setSelected] = useState(product?.productTags);
+  
+  useEffect(() => {
+    if (product?.productTags) {
+      setSelected(product.productTags);
+    }
+  }, [product]);
 
   const handleUpdateProduct = async (event) => {
     event.preventDefault();
