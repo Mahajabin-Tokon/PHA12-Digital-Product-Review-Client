@@ -5,7 +5,7 @@ Product Hunt
 To help users find different webservices and digital products
 
 # Live URL:
-
+https://producthunt-da3c5.web.app/
 
 # Key features:
 - Users can register their own profile and login

@@ -82,7 +82,7 @@ const AddProduct = () => {
             icon: "success",
             confirmButtonText: "Cool",
           });
-          navigate("/dashboard/myProducts");
+          // navigate("/dashboard/myProducts");
         }
 
         //   console.log(data);
